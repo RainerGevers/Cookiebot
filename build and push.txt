@@ -1,0 +1,5 @@
+docker build -t your_dockerhub_username/your_image_name:arm64 -f Dockerfile .
+docker push your_dockerhub_username/your_image_name:arm64
+
+docker build -t your_dockerhub_username/your_image_name:x64 -f Dockerfile .
+docker push your_dockerhub_username/your_image_name:x64

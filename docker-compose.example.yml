@@ -1,0 +1,36 @@
+version: '3'
+services:
+  # 64bit x86
+  bot-x64:
+    image: your-dockerhub-username/bot-x64
+    environment:
+      DISCORD_TOKEN: YourDiscordTokenHere
+    volumes:
+      - .:/app
+      - type: volume
+        source: db
+        target: /app/db
+        volume:
+          driver: local
+          driver_opts:
+            type: none
+            o: bind
+            device: /path/to/local/db
+  # Pi 4b
+  bot-arm64:
+    image: your-dockerhub-username/bot-arm64
+    environment:
+      DISCORD_TOKEN: YourDiscordTokenHere
+    volumes:
+      - .:/app
+      - type: volume
+        source: db
+        target: /app/db
+        volume:
+          driver: local
+          driver_opts:
+            type: none
+            o: bind
+            device: /path/to/local/db
+volumes:
+  db:

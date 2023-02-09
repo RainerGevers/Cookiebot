@@ -1,20 +1,21 @@
-//package Cookiebot
-//
-//import (
-//	"fmt"
-//	"os"
-//)
-
 package main
 
 import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"os"
 )
 
 func main() {
+	// Get discord token
+	token := os.Getenv("DISCORD_TOKEN")
+	if token == "" {
+		fmt.Println("No discord token provided")
+		return
+	}
+
 	// Create a new Discord session using the provided bot token.
-	dg, err := discordgo.New("Bot <token>")
+	dg, err := discordgo.New(fmt.Sprintf("Bot %s", token))
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return

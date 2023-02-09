@@ -1,0 +1,30 @@
+FROM golang:1.20-alpine as builder
+
+RUN apk add --no-cache sqlite-libs
+
+WORKDIR /app
+
+COPY . .
+
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o bot-x64 -tags 'sqlite' . \
+    && CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -o bot-arm64 -tags 'sqlite'
+
+FROM arm64v8/alpine:latest as arm64
+
+RUN apk add --no-cache sqlite-libs
+
+WORKDIR /app
+
+COPY --from=builder /app/bot-arm64 .
+
+CMD ["./bot-arm64"]
+
+FROM alpine:latest as x64
+
+RUN apk add --no-cache sqlite-libs
+
+WORKDIR /app
+
+COPY --from=builder /app/bot-x64 .
+
+CMD ["./bot-x64"]
